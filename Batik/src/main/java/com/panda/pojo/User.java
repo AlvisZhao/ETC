@@ -1,5 +1,7 @@
 package com.panda.pojo;
 
+
+
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
