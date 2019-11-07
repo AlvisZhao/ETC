@@ -54,6 +54,11 @@ public class UserController {
         session.setAttribute("userInfo", user);
         parameter.put("message","用户名密码正确！！");
 
+        /**
+         * 登录已完成
+         */
+        
+        
         //5、构造登录成功返回给前端的数据
         parameter.put("message", "登录成功~");
         parameter.put("status", "1");
