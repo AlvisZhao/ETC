@@ -8,6 +8,11 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
+/**
+ * 数据库中采购表的实体类
+ * @author DELL
+ *
+ */
 @Entity
 @Table(name="t_panda_purchase")
 public class Purchase implements Serializable{
