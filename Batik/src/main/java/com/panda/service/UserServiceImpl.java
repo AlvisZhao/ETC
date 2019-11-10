@@ -2,8 +2,6 @@ package com.panda.service;
 
 import com.panda.dao.UserDao;
 import com.panda.pojo.User;
-
-import org.apache.hadoop.hbase.protobuf.generated.VisibilityLabelsProtos.UserAuthorizationsOrBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

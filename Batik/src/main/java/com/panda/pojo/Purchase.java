@@ -11,7 +11,7 @@ import org.hibernate.annotations.GenericGenerator;
 @Entity
 @Table(name="t_panda_purchase")
 public class Purchase implements Serializable{
-		
+	
 	private static final long serialVersionUID = 1L;
 	
 	@Id
@@ -40,7 +40,7 @@ public class Purchase implements Serializable{
 	@Column
 	private String requestDate;//需求日期
 	@Column
-	private Boolean sureSource;//货源是否确定
+	private String sureSource;//货源是否确定
 	@Column
 	private String wishSupplier;//期望供应商
 	@Column
@@ -75,6 +75,7 @@ public class Purchase implements Serializable{
 	private String originator;//采购计划制单人
 	@Column
 	private String makingTime;//采购计划制单时间
+	
 	public String getId() {
 		return id;
 	}
@@ -141,10 +142,10 @@ public class Purchase implements Serializable{
 	public void setRequestDate(String requestDate) {
 		this.requestDate = requestDate;
 	}
-	public Boolean getSureSource() {
+	public String getSureSource() {
 		return sureSource;
 	}
-	public void setSureSource(Boolean sureSource) {
+	public void setSureSource(String sureSource) {
 		this.sureSource = sureSource;
 	}
 	public String getWishSupplier() {
