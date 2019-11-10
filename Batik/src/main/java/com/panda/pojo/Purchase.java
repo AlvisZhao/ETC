@@ -48,6 +48,8 @@ public class Purchase implements Serializable{
 	@Column
 	private String requestDeportment;//需求部门
 	@Column
+	private String requestPlanCode;//需求计划编码
+	@Column
 	private String supplyWay;//供应方式
 	@Column
 	private double supplyQuantity;//供应数量
@@ -165,6 +167,12 @@ public class Purchase implements Serializable{
 	}
 	public void setRequestDeportment(String requestDeportment) {
 		this.requestDeportment = requestDeportment;
+	}
+	public String getRequestPlanCode() {
+		return requestPlanCode;
+	}
+	public void setRequestPlanCode(String requestPlanCode) {
+		this.requestPlanCode = requestPlanCode;
 	}
 	public String getSupplyWay() {
 		return supplyWay;
