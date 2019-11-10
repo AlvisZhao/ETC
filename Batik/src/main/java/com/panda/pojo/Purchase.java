@@ -9,7 +9,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 /**
- * 采购表的实体类
+ * 数据库中采购表的实体类
  * @author DELL
  *
  */
