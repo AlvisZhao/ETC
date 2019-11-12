@@ -6,7 +6,7 @@
 <%
 	HttpSession httpSession = request.getSession();
 	User user = (User) httpSession.getAttribute("userInfo");
-	request.setAttribute("user", user.getCname());
+	request.setAttribute("userAccount", user.getAccount());
 %>
 <!DOCTYPE html>
 <html>
@@ -80,7 +80,7 @@
 	//		由于该事件在文档就绪后发生，因此把所有其他的 jQuery 事件和函数置于该事件中是非常好的做法。如上面的实例所示。
 	//		ready() 方法规定当 ready 事件发生时执行的代码。
 	//		提示：ready() 方法不应该与 <body onload=""> 一起使用。
-
+	
 	$(function() {
 		$('#main_content').load('welcome.html');
 	});

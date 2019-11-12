@@ -20,4 +20,8 @@ public class PurchaseServiceImpl implements PurchaseService{
 	public List<Purchase> queryAll() {
 		return purchaseDao.queryAll();
 	}
+
+	public void updatePlanName(String planCode, String planName) {
+		purchaseDao.updatePlanName(planCode, planName);
+	}
 }

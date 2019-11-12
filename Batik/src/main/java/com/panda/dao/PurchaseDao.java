@@ -11,5 +11,12 @@ public interface PurchaseDao {
 	 * @return
 	 */
 	List<Purchase> queryAll();
+	
+	/**
+	 * 更新采购计划中的需求计划名称
+	 * @param planCode
+	 * @param planName
+	 */
+	void updatePlanName(String planCode, String planName);
 
 }

@@ -197,7 +197,7 @@
             dataType : "json",
             success : function(data) {
                 if (data.status == "1") {
-                    window.location.href = "home.jsp";
+                    window.location.href = "frame.jsp";
                 }
             }
         });

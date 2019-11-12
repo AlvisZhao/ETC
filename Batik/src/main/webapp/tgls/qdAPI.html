@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1">
+		<!-- Google Chrome Frame也可以让IE用上Chrome的引擎: -->
+		<meta name="renderer" content="webkit">
+		<!--国产浏览器高速模式-->
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="author" content="穷在闹市" />
+		<!-- 定义页面的最新版本 -->
+		<meta name="description" content="网站简介" />
+		<!-- 网站简介 -->
+		<meta name="keywords" content="搜索关键字，以半角英文逗号隔开" />
+		<title>物资维护方案</title>
+
+		<!-- 公共样式 开始 -->
+		<link rel="stylesheet" type="text/css" href="../css/base.css">
+		<link rel="stylesheet" type="text/css" href="../css/iconfont.css">
+		<script type="text/javascript" src="../framework/jquery-1.11.3.min.js"></script>
+		<script type="text/javascript" src="../js/base.js"></script>
+		<link rel="stylesheet" type="text/css" href="../layui/css/layui.css">
+		<script type="text/javascript" src="../layui/layui.js"></script>
+		<!-- 滚动条插件 -->
+		<link rel="stylesheet" type="text/css" href="../css/jquery.mCustomScrollbar.css">
+		<script src="../framework/jquery-ui-1.10.4.min.js"></script>
+		<script src="../framework/jquery.mousewheel.min.js"></script>
+		<script src="../framework/jquery.mCustomScrollbar.min.js"></script>
+		<script src="../framework/cframe.js"></script>
+		<!-- 仅供所有子页面使用 -->
+		<!-- 公共样式 结束 -->
+		
+		<style>
+			.box{
+	    		width:70%; margin-top:10%; margin:auto; padding:28px;
+	            height:80px;background: #92B8B1; border:1px #111 solid;
+	    		display:none;            /* 默认对话框隐藏 */
+			}
+			.box.show{display:block;} 
+			.box .x{ font-size:18px; text-align:right; display:block;}
+			/*.box input{width:80%; font-size:18px; margin-top:18px;}*/
+		</style>
+		<!--判断条件-->
+		<script type="text/javascript">
+			/**
+			 * 汇总规则关闭函数
+			 * @param {Object} n
+			 */
+			function msgbox(n){
+            	document.getElementById('inputbox').style.display=n?'block':'none';     /* 点击按钮打开/关闭 对话框 */
+        	}
+			/**
+			 *	合并规则传入后台函数 
+			 */
+			function merge(){
+				alert("已经点击了确定！！")
+				var attributes=document.getElementsByName("attr");
+				var status = 0;
+				if(attributes[0]){
+					status += 8;
+				}
+				if(attributes[1].checked){
+					status += 4;
+				}
+				if(attributes[2].checked){
+					status += 2;
+				}
+				if(attributes[3].checked){
+					status += 1;
+				}
+				alert("状态值为：" + status)
+				//组装JSON对象
+				var json = {
+					mergeStatus : status
+					
+				}
+				//组装ajax请求获取合并结果
+				$.ajax({
+					type:"POST",
+					url:"http://localhost:8080/Batik/purchase/merge",
+					data : json,
+					dataType : "json",
+					success : function(ret) {
+						console.log(ret.data);
+						if(ret.status == "1"){
+							alert("合并成功！！")
+							msgbox(0);
+						}
+					}
+				});	
+			}
+			/**
+			 * 采购计划保存函数
+			 */
+			function submitRequest(){
+				alert("生成采购计划被点击")
+			}
+			
+			/**
+			 * 需求退回函数
+			 */
+			function requestBack(){
+				alert("需求退回被点击！！")
+			}
+			
+			/**
+			 * 关闭/退出函数
+			 */
+			function closeWin(){
+				alert("关闭/退出被点击！！")
+			}
+			
+			/**
+			 * 打印函数
+			 */
+			function printRequest(){
+				window.location.href = "print/outPrintData.html"
+			}
+			
+			/**
+			 * 导出函数
+			 */
+			function importRequest(){
+				alert("导出被点击！！")
+			} 
+			
+			/**
+			 * 拆分函数
+			 */
+			function splitPlan(){
+				alert("拆分被点击")
+			}
+			
+			/**
+			 * 取消合并函数
+			 */
+			function cancelMerge(){
+				alert("取消合并被点击")
+			}
+			
+			/**
+			 * 保存函数
+			 */
+			function savePlan(){
+				alert("保存被点击！！")
+			}
+			
+			/**
+			 * 物料分类编码被点击
+			 */
+			function classifyCode(){
+				alert("物料分类编码被点击！！")
+			}
+			
+			/**
+			 * 物料分类名称被点击
+			 */
+			function classifyName(){
+				alert("物料分类名称被点击")
+			}
+			
+			/**
+			 * 物料编码函数
+			 */
+			function materielCode(){
+				alert("物料编码被点击")
+			}
+			
+			/**
+			 * 物料名称被点击
+			 */
+			function materielName(){
+				alert("物料名称被点击！！")
+			}
+			
+			function queryRequest(){
+				$.ajax({
+					url: "http://localhost:8080/Batik/purchase/queryAll",
+					type: "GET",
+					data: null,
+					dataType: "json",
+					success: function(ret) {
+						console.log(JSON.stringify(ret));
+						if(ret.status == "1") {
+							showPurchaseList(ret.data);
+						}
+					}
+				});
+			}
+			//向后台申请获取需求数据
+			queryRequest();
+			function showPurchaseList(list){
+				alert("正在处理后台传入的数据")
+				//添加先清空
+				$("#purchaseTable").empty();
+				
+				var html = '';
+				for (var i = 0; i < list.length; i++) {
+					html += '<tr id="'+list[i].id+'">'
+					 +    '<td>' + parseInt(i+1) + '</td>'
+					 +    '<td> <input type="checkbox" name="printPlan" /> </td>'
+					 +    '<td>' + '<input class="purchaseAttributes" style="width: 50px; " type="text" name="materielClassifyCode" readonly="readonly" value="' + list[i].classificationCode + '"/>'
+					 +	  '</td>'
+					 +    '<td>' + '<input class="purchaseAttributes" style="width: 50px; " type="text" name="classificationName" readonly="readonly" value="' + list[i].classificationName + '"/>'
+					 +	  '</td>' 
+					 +    '<td>' + '<input class="purchaseAttributes" style="width: 50px; " type="text" name="materialCode" readonly="readonly" value="' + list[i].materialCode + '"/>'
+					 +	  '</td>'
+					 +    '<td>' + '<input class="purchaseAttributes" style="width: 50px; " type="text" name="materialCode" readonly="readonly" value="' + list[i].materialName + '"/>'
+					 +	  '</td>'
+					 +    '<td>' + '<input class="purchaseAttributes" style="width: 50px; " type="text" name="specification" readonly="readonly" value="' + list[i].specification + '"/>'
+					 +	  '</td>'
+					 +    '<td>' + '<input class="purchaseAttributes" style="width: 50px; " type="text" name="type" readonly="readonly" value="' + list[i].type + '"/>'
+					 +	  '</td>'
+					 +    '<td>' + '<input class="purchaseAttributes" style="width: 50px; " type="text" name="unit" readonly="readonly" value="' + list[i].unit + '"/>'
+					 +	  '</td>'
+					 +    '<td>' + '<input class="purchaseAttributes" style="width: 50px; " type="text" name="quantity" readonly="readonly" value="' + list[i].quantity + '"/>'
+					 +	  '</td>'
+					 +    '<td>' + '<input class="purchaseAttributes" style="width: 50px; " type="text" name="requestMonth" readonly="readonly" value="' + list[i].requestMonth + '"/>'
+					 +	  '</td>'
+					 +    '<td>' + '<input class="purchaseAttributes" style="width: 50px; " type="text" name="requestDate" readonly="readonly" value="' + list[i].requestDate + '"/>'
+					 +	  '</td>'
+					 +    '<td>' + '<input class="purchaseAttributes" style="width: 50px; " type="text" name="sureSource" readonly="readonly" value="' + list[i].sureSource + '"/>'
+					 +	  '</td>'
+					 +    '<td>' + '<input class="purchaseAttributes" style="width: 50px; " type="text" name="wishSupplier" readonly="readonly" value="' + list[i].wishSupplier + '"/>'
+					 +	  '</td>'
+					 +    '<td>' + '<input class="purchaseAttributes" style="width: 50px; " type="text" name="fixedSupplier" readonly="readonly" value="' + list[i].fixedSupplier + '"/>'
+					 +	  '</td>'
+					 +    '<td>' + '<input class="purchaseAttributes" style="width: 50px; " type="text" name="requestDeportment" readonly="readonly" value="' + list[i].requestDeportment + '"/>'
+					 +	  '</td>'
+					 +    '<td>' + '<input class="purchaseAttributes" style="width: 50px; " type="text" name="requestPlanCode" readonly="readonly" value="' + list[i].requestPlanCode + '"/>'
+					 +	  '</td>'
+					 +    '<td>' + '<input class="purchaseAttributes" style="width: 50px; " type="text" name="supplyWay" readonly="readonly" value="' + list[i].supplyWay + '"/>'
+					 +	  '</td>'
+					 +    '<td>' + '<input class="purchaseAttributes" style="width: 50px; " type="text" name="supplyQuantity" readonly="readonly" value="' + list[i].supplyQuantity + '"/>'
+					 +	  '</td>'
+					 +    '<td>' + '<input class="purchaseAttributes" style="width: 50px; " type="text" name="availableStock" readonly="readonly" value="' + list[i].availableStock + '"/>'
+					 +	  '</td>'
+					 +    '<td>' + '<input class="purchaseAttributes" style="width: 50px; " type="text" name="quantityRoutes" readonly="readonly" value="' + list[i].quantityRoutes + '"/>'
+					 +	  '</td>'
+					 +    '<td>' + '<input class="purchaseAttributes" style="width: 50px; " type="text" name="usedStock" readonly="readonly" value="' + list[i].usedStock + '"/>'
+					 +	  '</td>'
+					 +    '<td>' + '<input class="purchaseAttributes" style="width: 50px; " type="text" name="totalStock" readonly="readonly" value="' + list[i].totalStock + '"/>'
+					 +	  '</td>'
+					 +    '<td>' + '<input class="purchaseAttributes" style="width: 50px; " type="text" name="purchaseLeadTime" readonly="readonly" value="' + list[i].purchaseLeadTime + '"/>'
+					 +	  '</td>'
+					 +    '<td>' + '<input class="purchaseAttributes" style="width: 50px; " type="text" name="purchaseDate" readonly="readonly" value="' + list[i].purchaseDate + '"/>'
+					 +	  '</td>'
+					 +    '<td>' + '<input class="purchaseAttributes" style="width: 50px; " type="password" name="materialTrackingCode" readonly="readonly" value="' + list[i].materialTrackingCode + '"/>'
+					 +	  '</td>'
+					 +	  '</tr>';
+			}
+				
+				$("#purchaseTable").html(html);
+			}
+		</script>
+	</head>
+
+	<body>
+		<div class="cBody">
+			<div class="layui-collapse">
+				<!--模块 开始-->
+				<div class="layui-colla-item">
+					
+						<!--顶部按钮-->
+						<div style="width: 100%;height: 70px;background: #F4F4F4;vertical-align: middle;line-height: 50px;">
+							<button id="goods_combine"  style="margin-left: 70px;margin-top:30px;width:100px;height:35px;background-color:#263236;color: #F1F1F1;" onClick="msgbox(1)">合并</button>
+							<button id="goods_cancel_combine"  style="margin-left: 35px;width:100px;height:35px;background-color: #209E85;color: #F1F1F1;" onclick="cancelMerge()">取消合并</button>
+					
+							<button id="goods_print" style="margin-left: 30px;width:100px;height:35px;background-color:#263236;color: #F1F1F1;" onclick="printRequest()">打印</button>
+							<button id="goods_output" style="margin-left: 30px;width:100px;height:35px;background-color:#209E85;color: #F1F1F1;" onclick="importRequest()">导出</button>
+							<button id="goods_save" style="margin-left: 30px;width:100px;height:35px;background-color:#263236;color: #F1F1F1;" onclick="savePlan()">保存</button>
+						</div>
+						<div style="width: 100%;height: 10px;background: black;vertical-align: middle;line-height: 50px;">
+							
+						</div>
+						<div style="width: 100%;height: 100px;background: #F4F4F4;vertical-align: middle;line-height: 50px;">
+							<button id="goods_spilt" style="margin-left: 70px;width:100px;height:35px;background-color:#263236;color: #F1F1F1;" onclick="splitPlan()">拆分</button>
+							<button id="Need_return" style="margin-left: 35px;width:100px;height:35px;background-color: #209E85;color: #F1F1F1;" onclick="requestBack()">需求退回</button>
+							<button id="Generate_purchase " style="margin-left: 30px;width:100px;height:35px;background-color:#263236;color: #F1F1F1;" onclick="submitRequest()">生成采购计划</button>
+							<button id="sum_rule" style="margin-left: 30px;width:100px;height:35px;background-color:#209E85;color: #F1F1F1;">汇总规则设置</button>
+							<button id="quit" style="margin-left: 30px;width:100px;height:35px;background-color:#263236;color: #F1F1F1;" onclick="closeWin()">关闭/退出</button>
+							
+						</div>
+						<div id='inputbox' class="box">
+					        <a class='x' href=''; onclick="msgbox(0); retuen false">关闭</a>
+					        <label style="color: #E9E9E9;zoom:150%;">
+						        <input type="checkbox" name="attr" id="bianma" checked="checked" onclick="return false";>物料编码
+								<input type="checkbox" name="attr" > 需求月份
+								<input type="checkbox" name="attr" > 期望供应商 
+								<input type="checkbox" name="attr" >固定供应商
+							</label>
+					        <button id="quit" style="margin-left: 50px;width:100px;height:35px;background-color:#263236;color: #F1F1F1;"
+					        	onclick="merge()">确定</button>
+					     </div>
+						<div class="layui-tab-item layui-show" style="overflow: auto;">
+						<table id="basicInfo" class="layui-table">
+							<thead>
+								<tr>
+									<th>行号</th>
+									<th>选择</th>
+									<th>物料分类编码</th>
+									<th>物料分类名称</th>
+									<th>物料编码</th>
+									<th>物料名称</th>
+									<th>规格</th>
+									<th>型号</th>
+									<th>单位</th>
+									<th>需求数量</th>
+									<th>需求月份</th>
+									<th>需求日期</th>
+									<th>货源是否确定</th>
+									<th>固定供应商</th>
+									<th>期望供应商</th>
+									<th>所属需求部门</th>
+									<th>所属需求计划编码</th>
+									<th>供应方式</th>
+									<th>供应数量</th>
+									<th>可用库存</th>
+									<th>在途数量</th>
+									<th>已占库存</th>
+									<th>库存总量</th>
+									<th>采购提前期</th>
+									<th>采购日期</th>
+									<th>物料追踪码</th>
+								</tr>
+								<tbody id="purchaseTable">
+									
+								</tbody>
+							</thead>
+						</table>
+					</div>
+				
+
+			<script>
+				//注意：折叠面板 依赖 element 模块，否则无法进行功能性操作
+				layui.use('element', function() {
+					var element = layui.element;
+				});
+			</script>
+
+		</div>
+	</body>
+
+</html>

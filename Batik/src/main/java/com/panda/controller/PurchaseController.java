@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.collections.map.HashedMap;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,7 +37,7 @@ public class PurchaseController {
      * @param session
      * @return
      */
-    @RequestMapping("/purchase/queryAll")
+    @RequestMapping("/purchase/queryUpdate")
     public@ResponseBody String queryAll(HttpServletRequest request, HttpServletResponse response) {
     	response.setHeader("Access-Control-Allow-Origin", "*");// 解决跨域问题
     	System.out.print("已收到前端传来的请求，正在查询......");
@@ -53,5 +54,34 @@ public class PurchaseController {
 		result.put("data", list);
 		return JSON.toJSONString(result);
     }
-    
+    	
+    /**
+     * @category 通过需求计划编码修改采购计划名称
+     * @param parameter
+     * @param request
+     * @param response
+     * @param session
+     * @return
+     */
+    @RequestMapping("/purchase/updatePlanName")
+    public@ResponseBody String updatePlanName(
+    		@RequestParam Map<String, String> parameter, HttpServletRequest request, HttpServletResponse response, HttpSession session) {
+    	String planName = parameter.get("purchasePlanName");
+    	String planCode = parameter.get("requestPlanCode");
+    	
+    	//查询目标对象
+    	//Purchase purchase = purchaseService.findPurchaseById(planCode);
+    	//重新赋值
+    	//purchase.setPurchasePlanType(planName);
+    	
+    	//更新
+    	//purchaseService.updatePlanName(purchase)
+    	
+    	System.out.print("已接收到前端传来的数据" + planCode + planName);
+		purchaseService.updatePlanName(planCode, planName);
+		Map<String, String> result = new HashedMap();
+		result.put("message", "更新成功");
+		result.put("status", "1");
+		return JSON.toJSONString(result);
+    }
 }

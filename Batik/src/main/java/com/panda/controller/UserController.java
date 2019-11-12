@@ -49,15 +49,10 @@ public class UserController {
             parameter.put("status", "0");
             return JSON.toJSONString(parameter);
         }
-        //4、登录成功，需要将用户信息保存在request对象中，
+        //4、登录成功，将当前的用户信息存入到当前的会话中session
         //   便于在前端页面获取到当前是哪一个用户正在登录系统
         session.setAttribute("userInfo", user);
         parameter.put("message","用户名密码正确！！");
-
-        /**
-         * 登录已完成
-         */
-        
         
         //5、构造登录成功返回给前端的数据
         parameter.put("message", "登录成功~");
