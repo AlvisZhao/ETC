@@ -30,29 +30,25 @@ public class Request implements Serializable{
 	@Column
 	private String materialName;//物料名称
 	@Column
-	private String specification;//型号
-	@Column
 	private String type;//规格
+	@Column
+	private String specification;//型号
 	@Column
 	private String unit;//单位
 	@Column
-	private double quantity;//数量
+	private String quantity;//数量
 	@Column
 	private String requestMonth;//需求月份
 	@Column
 	private String requestDate;//需求日期
 	@Column
-	private Boolean sureSource;//货源是否确定
+	private String sureSource;//货源是否确定
 	@Column
 	private String wishSupplier;//期望供应商
 	@Column
 	private String fixedSupplier;//固定供应商
 	@Column
-	private double requestStock;//需求库存组织
-	@Column
 	private String remarks;//备注
-	@Column
-	private String materialTrackingCode;//物料追踪码
 	@Column
 	private String requestPlanType;//需求计划类型
 	@Id
@@ -60,8 +56,15 @@ public class Request implements Serializable{
 	@GeneratedValue(generator = "system-uuid")
 	@Column
 	private String requestPlanCode;//需求计划编码
+	@Id
+	@GenericGenerator(name="system-uuid", strategy = "uuid")
+	@GeneratedValue(generator = "system-uuid")
+	@Column
+	private String materialTrackingCode ;//物料追踪码
 	@Column
 	private String requestPlanName;//需求计划名称
+	@Column
+	private String requestRemarks; //需求备注
 	@Column
 	private String requestDeportment;//需求部门
 	@Column
@@ -70,6 +73,68 @@ public class Request implements Serializable{
 	private String requestStatus;//需求申请状态
 	@Column
 	private String approvalStatus;//审批状态
+	@Column
+	private String updateTime; //修改日期
+	@Column
+	private String requestplanmonth;  // 需求计划月份
+	@Column
+	private String modifyReason; //需求计划修改原因
+	@Column
+	private String createTime;   //创建时间
+	@Column
+	private String createPerson;   // 创建人
+	@Column
+	private String modifyPerson;   // 修改人
+
+
+	public String getModifyReason() {
+		return modifyReason;
+	}
+
+	public void setModifyReason(String modifyReason) {
+		this.modifyReason = modifyReason;
+	}
+
+	public String getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(String createTime) {
+		this.createTime = createTime;
+	}
+
+	public String getCreatePerson() {
+		return createPerson;
+	}
+
+	public void setCreatePerson(String createPerson) {
+		this.createPerson = createPerson;
+	}
+
+	public String getModifyPerson() {
+		return modifyPerson;
+	}
+
+	public void setModifyPerson(String modifyPerson) {
+		this.modifyPerson = modifyPerson;
+	}
+
+	public String getRequestplanmonth() {
+		return requestplanmonth;
+	}
+
+	public void setRequestplanmonth(String requestplanmonth) {
+		this.requestplanmonth = requestplanmonth;
+	}
+
+
+	public String getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(String updateTime) {
+		this.updateTime = updateTime;
+	}
 	public String getId() {
 		return id;
 	}
@@ -118,10 +183,10 @@ public class Request implements Serializable{
 	public void setUnit(String unit) {
 		this.unit = unit;
 	}
-	public double getQuantity() {
+	public String getQuantity() {
 		return quantity;
 	}
-	public void setQuantity(double quantity) {
+	public void setQuantity(String quantity) {
 		this.quantity = quantity;
 	}
 	public String getRequestMonth() {
@@ -136,10 +201,10 @@ public class Request implements Serializable{
 	public void setRequestDate(String requestDate) {
 		this.requestDate = requestDate;
 	}
-	public Boolean getSureSource() {
+	public String getSureSource() {
 		return sureSource;
 	}
-	public void setSureSource(Boolean sureSource) {
+	public void setSureSource(String sureSource) {
 		this.sureSource = sureSource;
 	}
 	public String getWishSupplier() {
@@ -154,12 +219,12 @@ public class Request implements Serializable{
 	public void setFixedSupplier(String fixedSupplier) {
 		this.fixedSupplier = fixedSupplier;
 	}
-	public double getRequestStock() {
-		return requestStock;
-	}
-	public void setRequestStock(double requestStock) {
-		this.requestStock = requestStock;
-	}
+//	public double getRequestStock() {
+//		return requestStock;
+//	}
+//	public void setRequestStock(double requestStock) {
+//		this.requestStock = requestStock;
+//	}
 	public String getRemarks() {
 		return remarks;
 	}
@@ -174,6 +239,13 @@ public class Request implements Serializable{
 	}
 	public String getRequestPlanType() {
 		return requestPlanType;
+	}
+	public String getRequestRemarks() {
+		return requestRemarks;
+	}
+
+	public void setRequestRemarks(String requestRemarks) {
+		this.requestRemarks = requestRemarks;
 	}
 	public void setRequestPlanType(String requestPlanType) {
 		this.requestPlanType = requestPlanType;

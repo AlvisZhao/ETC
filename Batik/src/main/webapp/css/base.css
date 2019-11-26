@@ -246,4 +246,13 @@ i.bt{
 	font-size: 18px;
 	margin-right: 3px;
 }
+.First_plan div{
+	/*border: 1px solid #919876;*/
+	text-align: center;
+	display: inline-block;
+	width: 40%;
+	margin-bottom: 5px;
+	margin-top: 10px;
+	/*margin-right: ;*/
+}	
 /***table操作iconfont - 结束***/

@@ -11,7 +11,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table(name="t_panda_approval")
+@Table(name="t_panda_approval_purchase")
 public class Approval implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
@@ -19,18 +19,19 @@ public class Approval implements Serializable{
 	@Id
 	@GenericGenerator(name="system-uuid", strategy = "uuid")
 	@GeneratedValue(generator = "system-uuid")
-    @Column
+    @Column(name="id")
 	private String id;//主键
-	@Column
+	@Column(name="requestPlanCode")
 	private String requestPlanCode;//需求计划编码
-	@Column
+	@Column(name="approvalPerson")
 	private String approvalPerson;//审批人
-	@Column
+	@Column(name="approvalTime")
 	private String approvalTime;//审批时间
-	@Column
+	@Column(name="approvalOpinion")
 	private String approvalOpinion;//审批意见
-	@Column
-	private String explain;//说明
+	@Column(name="approvalExplain")
+	private String approvalExplain;//说明
+	
 	public String getId() {
 		return id;
 	}
@@ -61,10 +62,10 @@ public class Approval implements Serializable{
 	public void setApprovalOpinion(String approvalOpinion) {
 		this.approvalOpinion = approvalOpinion;
 	}
-	public String getExplain() {
-		return explain;
+	public String getApprovalExplain() {
+		return approvalExplain;
 	}
-	public void setExplain(String explain) {
-		this.explain = explain;
+	public void setApprovalExplain(String approvalExplain) {
+		this.approvalExplain = approvalExplain;
 	}
 }

@@ -57,7 +57,6 @@ public class UserController {
         //5、构造登录成功返回给前端的数据
         parameter.put("message", "登录成功~");
         parameter.put("status", "1");
-        //System.out.println("登录成功返回的结果数据：" + JSON.toJSONString(parameter));
         return JSON.toJSONString(parameter);
 
     }

@@ -47,20 +47,19 @@ section {
 }
 
 section .left_menu {
-	width: 15%;
+	width: 10%;
 	height: 100%;
 	background: #263236;
 	float: left;
 }
 
 section .right_content {
-	width: 85%;
+	width: 90%;
 	height: 100%;
 	background: #F4F4F5;
 	float: right;
 	position: relative;
 }
-
 .ul_css {
 	height: auto;
 	width: 100%;
@@ -130,7 +129,7 @@ tbody tr:nth-child(even) {
 
 #add_window {
 	width: 100%;
-	height: 90%;
+	height: 160%;
 	background: rgba(0, 0, 0, 0.5);
 	position: absolute;
 	top: 0;
@@ -140,7 +139,7 @@ tbody tr:nth-child(even) {
 
 #add_window .first_div {
 	width: 50%;
-	height: 90%;
+	height: 120%;
 	background: white;
 	position: relative;
 	top: 4%;
@@ -242,22 +241,25 @@ button {
 	border-radius: 5px;
 	color: white;
 }
+.First_plan div{
+	/*border: 1px solid #919876;*/
+	text-align: center;
+	display: inline-block;
+	width: 40%;
+	margin-bottom: 5px;
+	margin-top: 10px;
+	/*margin-right: ;*/
+}	
+.First_plan2 div{
+	/*border: 1px solid #919876;*/
+	text-align: center;
+	display: inline-block;
+	width: 40%;
+	margin-bottom: 5px;
+	margin-top: 10px;
+	/*margin-right: ;*/
+}	
 
-
-/*下拉选择框-样式-开始*/
-
-
-/*
-select {
-	/*Chrome和Firefox里面的边框是不一样的，所以复写了一下*/
-
-
+.requestAttributes{
+	width: 60px;
 }
-
-/*清除ie的默认选择框样式清除，隐藏下拉箭头*/
-
-/*select::-ms-expand {
-	display: none;
-}*/
-
-/*下拉选择框-样式-結束*/

@@ -174,7 +174,7 @@
     }
     //登录
     function login() {
-        var username = $("#username").val()
+        var username = $("#username").val();
         if(null == username || "" == username) {
             alert("请输入用户名");
             return;
@@ -191,7 +191,7 @@
         console.log(JSON.stringify(data))
         //关键的一步来了:将前端输入的数据发送给后台控制器，怎么发送？？？
         $.ajax({
-            url : "http://localhost:8080/Batik/login",
+            url : "http://123.56.68.20:8080/Batik/login",
             type : "POST",
             data : data,
             dataType : "json",

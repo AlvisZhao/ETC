@@ -39,16 +39,16 @@
 		<!--判断条件-->
 		<script type="text/javascript">	
 			function queryPurchase(){
-				alert("查询被点击！！");
+				alert("正在查询采购计划信息，请稍候...");
 				$.ajax({
-					url: "http://localhost:8080/Batik/purchase/queryUpdate",
+					url: "http://123.56.68.20:8080/Batik/purchase/queryAll",
 					type: "POST",
 					data: null,
 					dataType: "json",
 					success: function(ret) {
 						console.log(JSON.stringify(ret));
 						if(ret.status == "1") {
-							alert("已接收到数据，正在处理...")
+							alert("采购信息已查询完毕！");
 							showPuechaseList(ret.data);
 						}
 						getModifyPlan();
@@ -64,12 +64,12 @@
 				var html2 = '';
 				var html3 = '';
 				for (var i = 0; i < list.length; i++) {
-					var purchasePlanName = list[i].purchasePlanName;
-					if (purchasePlanName == null){
-						alert("暂无数据，请写入！");
+					var planName = list[i].purchasePlanName;
+					if (planName == null){
+						planName = "暂无数据，请写入！";
 					}
 					html1 += '<td>采购计划名称</td>'
-						  +  '<td><input type="text" id="planName" style="margin-right: 60px;margin-left: 10px;" value="' + purchasePlanName + '"/>'
+						  +  '<td><input type="text" id="planName" style="margin-right: 60px;margin-left: 10px;" value="' + planName + '"/>'
 						  +  '</td>'
 						  +  '<td>采购计划编码</td>'
 						  +  '<td><input type="text" id="purchasePlanCode" style="margin-left: 10px;margin-right: 30px;background-color: #EEEEEE;font-weight: bold;" value="' + list[i].purchasePlanCode + '"/>'
@@ -133,6 +133,9 @@
 			function savePurchasePlanName(){
 				alert("保存已被点击！");
 				var planName = document.getElementById("planName").value;
+				if (planName == null || planName == "暂无数据，请写入！"){
+					alert("请输入采购计划名称");
+				}
 				var planCode = document.getElementById("planCode").value;
 				alert("已拿到前端数据" + planCode + " 和 " + planName)
 				var data = {
@@ -142,12 +145,12 @@
 				console.log(JSON.stringify(data))
 				$.ajax({
 					type:"post",
-					url:"http://localhost:8080/Batik/purchase/updatePlanName",
+					url:"http://123.56.68.20:8080/Batik/purchase/updatePlanName",
 					data : data,
 					dataType : "json",
 					success : function(ret){
-						console.log(ret.data);
-						if(status == 1){
+						console.log(JSON.stringify(ret));
+						if(ret.status == "1"){
 							alert("存储成功，正在更新数据...");
 							queryPurchase();
 						}
@@ -156,22 +159,21 @@
 			}
 			
 			function getModifyPlan(){
-				alert("修改表方法被调用！");
+				alert("正在查询采购计划的修改信息，请稍候......");
 				var purchasePlanCode = document.getElementById("purchasePlanCode").value;
-				alert("已经拿到前端数据：" + purchasePlanCode);
-				var code = {
+				var data = {
 					"purchasePlanCode" : purchasePlanCode
 				}
 				console.log(JSON.stringify(data))
 				$.ajax({
 					type:"post",
-					url:"http://localhost:8080/Batik/purchase/getModifyPurchase",
-					data: code,
+					url:"http://123.56.68.20:8080/Batik/purchase/getModifyPurchase",
+					data: data,
 					dataType:"json",
-					success : function(ret){
-						console.log(ret.data);
-						if(status == 1){
-							alert("请求成功，正在返回数据！！");
+					success: function(ret) {
+						console.log(JSON.stringify(ret));
+						if(ret.status == "1") {
+							alert("已经查询到计划修改信息！");
 							showModifyPlan(ret.data);
 						}
 					}
@@ -183,33 +185,33 @@
 				var html = '';
 				for (var i = 0; i < list.length; i++) {
 					html += '<tr>'
-						 +  '<td>修改原因</td>'
-						 +  '<td><input type="text" id="change_reason" style="margin-right: 60px;margin-left: 10px;"value="' + list[i].modifyPerson + '"></td>'
-						 +  '<td>修改人</td>'
-						 +  '<td><input type="text" id="change_people" style="margin-right: 60px;margin-left: 10px;background-color: #EEEEEE;font-weight: bold;"value="' + list[i].modifyPerson + '"></td>'
-						 +  '<td>修改时间</td>'
-						 +  '<td><input type="text" id="change_time" style="margin-right: 30px;margin-left: 10px;background-color: #EEEEEE;font-weight: bold;"value="' + list[i].modifyTime + '"></td>'
+					     +  '<td>' + list[i].modifyReason
+						 +  '</td>'
+						 +  '<td>' + list[i].modifyPerson
+						 +  '</td>'
+						 +  '<td>' + list[i].modifyTime
+						 +  '</td>'
 						 +  '</tr>';
 				}
-				$("#modifyPlan").html(html1);
+				$("#modifyPlan").html(html);
 				
 			}
 			function getAppovalPlan(){
-				alert("获取审批状态方法被调用！！");
-				var planCode = document.getElementById("planCode");
+				alert("正在查询计划审批信息，请稍候......");
+				var planCode = document.getElementById("planCode").value;
 				var data = {
 					"planCode" : planCode
 				}
 				$.ajax({
 					type:"post",
-					url:"http://localhost:8080/Batik/purchase/getApproval",
+					url:"http://123.56.68.20:8080/Batik/purchase/getApproval",
 					data:data,
 					dataType:"json",
-					success : function(ret){
-						console.log(ret.data);
-						if(status == 1){
-							alert("请求成功，正在返回数据！！");
-							showModifyPlan(ret.data);
+					success: function(ret) {
+						console.log(JSON.stringify(ret));
+						if(ret.status == "1") {
+							alert("已经查询到审批信息，所有信息查询完毕，正在显示。");
+							showApprovalPlan(ret.data);
 						}
 					}
 				});
@@ -223,10 +225,61 @@
 						 +  '<th>' + list[i].approvalPerson + '</th>'
 						 +  '<th>' + list[i].approvalTime + '</th>'
 						 +	'<th>' + list[i].approvalOpinion + '</th>'
-						 +	'<th>' + list[i].explain + '</th>'
+						 +	'<th>' + list[i].approvalExplain + '</th>'
 						 +  '</tr>';
 				}
-				$("#appovalPlan").html(html1);
+				$("#appovalPlan").html(html);
+			}
+			
+			function purchaseBack(){
+				var requestPlanCode = document.getElementById("planCode").value;
+				alert("已经拿到前端的需求计划编码 " + requestPlanCode);
+				var data = {
+					"requestPlanCode" : requestPlanCode
+				}
+				console.log(JSON.stringify(data));
+				alert("退回按钮被点击");
+				$.ajax({
+					type:"post",
+					url:"http://123.56.68.20:8080/Batik/purchase/purchaseBack",
+					data : data,
+					dataType:"json",
+					success:function(ret){
+						console.log(JSON.stringify(ret));
+						if (ret.status == "1"){
+							alert("退回成功");
+						}
+					}
+				});
+			}
+			/**
+			 * 打印函数
+			 */
+			function printRequest(){
+				alert("打印被点击");
+				var requestPlanCode = document.getElementById("requestPlanCode").value;
+				var planCode = '';
+				var data = {
+					"requestPlanCode" : requestPlanCode
+				}
+				console.log(JSON.stringify(data));
+				$.ajax({
+					type:"post",
+					url:"http://123.56.68.20:8080/Batik/purchase/getPurchasePlanCode",
+					data: data,
+					dataType:"json",
+					success:function(ret){
+						console.log(JSON.stringify(ret));
+						if (ret.status == "1") {
+							alert("查询成功");
+							planCode += ret.data;
+						} else{
+							alert("查询失败");
+						}
+					}
+				});
+				var url = "../outPrintData.jsp?planCode=" + planCode;
+				window.open(url);
 			}
 		</script>
 	</head>
@@ -237,50 +290,50 @@
 				<div class="layui-form-item">
 					<a class="layui-btn" onclick="queryPurchase()" style="margin-left: 30px;width:100px;height:35px;"> 查询</a>
 					<a class="layui-btn" onclick="savePurchasePlanName()"style="margin-left: 30px;width:100px;height:35px;"> 保存</a>
-					<a class="layui-btn" onclick="addbasicInfo('basicInfo')"style="margin-left: 30px;width:100px;height:35px;"> 退回</a>
+					<a class="layui-btn" onclick="purchaseBack()"style="margin-left: 30px;width:100px;height:35px;"> 退回</a>
 					<a class="layui-btn" onclick="addbasicInfo('basicInfo')"style="margin-left: 30px;width:100px;height:35px;"> 提交</a>
-					<a class="layui-btn" onclick="printTable('dayindaju1')"style="margin-left: 30px;width:100px;height:35px;"> 打印</a>
+					<a class="layui-btn" onclick="printRequest()"style="margin-left: 30px;width:100px;height:35px;"> 打印</a>
 					<a class="layui-btn" onclick="addbasicInfo('basicInfo')"style="margin-left: 30px;width:100px;height:35px;"> 导出</a>
 					<a class="layui-btn" onclick="addbasicInfo('basicInfo')"style="margin-left: 30px;width:100px;height:35px;">关闭/退出</a>
 				</div>
 		</div>
-		<div style="width: 100%;height: 10px;background: black;vertical-align: middle;line-height: 50px;"></div>
+		<div style="width: 100%;height: 10px;background: black;vertical-align: middle;line-height: 50px;background-image: -webkit-gradient(linear,0%0%,100%0%,from(#263236),color-stop(0.33,#209E85),to(#F1F1F1));"></div>
 		<div class="采购计划">
 			<div class="xuanze">
 				<table style="margin-top: 10px;margin-left: 20px;font-weight: bold;">
 					<tbody id="purchase1">
-						<!--<td>采购计划名称</td>
+						<td>采购计划名称</td>
 						<td><input type="text" id="caigou_name" style="margin-right: 60px;margin-left: 10px;" ></td>
 						<td>采购计划编码</td>
 						<td><input type="text" id="caigou_code" style="margin-left: 10px;margin-right: 30px;background-color: #EEEEEE;font-weight: bold;"></td>
 						<td>审批状态</td>
-						<td><input type="text" id="shengpi_stusta" style="margin-left: 10px;background-color: #EEEEEE;font-weight: bold;"></td>-->
+						<td><input type="text" id="shengpi_stusta" style="margin-left: 10px;background-color: #EEEEEE;font-weight: bold;"></td>
 					</tbody>
 				</table>
 				<table style="margin-top: 10px;margin-left: 20px;font-weight: bold;">
-					<tbody id="modifyPlan">
-						<!--<tr>
+					<!--<tbody id="modifyPlan">
+						<tr>
 							<td>修改原因</td>
 							<td><input type="text" id="change_reason" style="margin-right: 60px;margin-left: 10px;"></td>
 							<td>修改人</td>
 							<td><input type="text" id="change_people" style="margin-right: 60px;margin-left: 10px;background-color: #EEEEEE;font-weight: bold;"></td>
 							<td>修改时间</td>
 							<td><input type="text" id="change_time" style="margin-right: 30px;margin-left: 10px;background-color: #EEEEEE;font-weight: bold;"></td>
-						</tr>-->
-					</tbody>	
+						</tr>
+					</tbody>	-->
 				</table>
 				<table style="margin-top: 10px;margin-left: 20px;font-weight: bold;">
 					<tbody id="purchase2">
-							<!--<td>制单人</td>
+							<td>制单人</td>
 							<td><input type="text" id="prepared_by" style="margin-right: 40px;margin-left: 10px;background-color: #EEEEEE;font-weight: bold;"></td>
 							<td>制单时间</td>
 							<td><input type="text" id="biling_date" style="margin-right: 40px;margin-left: 10px;background-color: #EEEEEE;font-weight: bold;"></td>
 							<td>采购计划类型</td>
-							<td><input type="text" id="shopping_type" style="margin-right: 30px;margin-left: 10px;background-color: #EEEEEE;font-weight: bold;"></td>-->
+							<td><input type="text" id="shopping_type" style="margin-right: 30px;margin-left: 10px;background-color: #EEEEEE;font-weight: bold;"></td>
 					</tbody>
 				</table>
 				<div class="biao" style="width: 500px; height: 200px;background: #C9C9C9;margin-left: 100px;margin-top: 10px;">
-					<table id = "process_Info" class="layui-table">
+					<table id = "process_Info" class="layui-table" style="overflow: auto;">
 						<tr>
 							<thead>
 								<th>行号</th>
@@ -290,11 +343,27 @@
 								<th>说明</th>
 							</thead>
 							<tbody id="appovalPlan">
-								<!--<th>1</th>
+								<th>1</th>
 								<th>chengyong</th>
 								<th>2019.06.23</th>
 								<th>meiyou</th>
-								<th>hahah</th>-->
+								<th>hahah</th>
+							</tbody>
+						</tr>
+					</table>
+					<table id = "process_Info" class="layui-table" style="margin-left: 600px;margin-top:-85px;">
+						<tr>
+							<thead>
+								<th>行号</th>
+								<th>修改人</th>
+								<th>修改时间</th>
+								<th>修改原因</th>
+							</thead>
+							<tbody id="modifyPlan">
+								<th>1</th>
+								<th>chengyong</th>
+								<th>2019.06.23</th>
+								<th>meiyou</th>
 							</tbody>
 						</tr>
 					</table>

@@ -73,8 +73,14 @@ public class Purchase implements Serializable{
 	private String purchaseDate;//采购日期
 	@Column
 	private String materialTrackingCode;//物料追踪码
+	
+	@Id
+	@GenericGenerator(name="system-uuid", strategy = "uuid")
+	@GeneratedValue(generator = "system-uuid")
 	@Column
-	private String purchasePlanCode;//需求计划编码
+	private String purchasePlanCode;//采购计划编码
+	@Column
+	private String purchasePlanName;//采购计划名称
 	@Column 
 	private String approvalStatus;//审批状态
 	@Column
@@ -239,6 +245,12 @@ public class Purchase implements Serializable{
 	}
 	public void setPurchasePlanCode(String purchasePlanCode) {
 		this.purchasePlanCode = purchasePlanCode;
+	}
+	public String getPurchasePlanName() {
+		return purchasePlanName;
+	}
+	public void setPurchasePlanName(String purchasePlanName) {
+		this.purchasePlanName = purchasePlanName;
 	}
 	public String getApprovalStatus() {
 		return approvalStatus;

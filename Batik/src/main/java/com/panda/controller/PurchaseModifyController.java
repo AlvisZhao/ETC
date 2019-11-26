@@ -1,6 +1,5 @@
 package com.panda.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +36,7 @@ public class PurchaseModifyController {
 	@RequestMapping("/purchase/getModifyPurchase")
 	public @ResponseBody String getModifyPurchase(
 			@RequestParam Map<String, String> parameter,HttpServletRequest request, HttpServletResponse response) {
+		System.out.println("已经进入获取修改表数据的后台控制层！！");
 		String purchasePlanCode = parameter.get("purchasePlanCode");
 		System.out.println("已经拿到了前台传过来的采购计划编码：" + purchasePlanCode + "正在查询...");
 		List<PurchaseModify> list = purchaseModifyService.queryByPlanCode(purchasePlanCode);
