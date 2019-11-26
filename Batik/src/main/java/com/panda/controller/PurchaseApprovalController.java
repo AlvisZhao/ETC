@@ -28,6 +28,7 @@ import com.panda.service.PurchaseService;
 public class PurchaseApprovalController {
 	
 	/**
+	 *   
      * @category 依赖注入 DI IOC
      */
 	@Resource
